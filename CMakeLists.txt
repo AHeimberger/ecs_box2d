@@ -9,6 +9,7 @@ set (IMGUI_INCLUDE_DIRS
 )
 
 set (SRCS
+    src/glfw++.cpp
     src/main.cpp
     src/mainwindow.cpp
 )
