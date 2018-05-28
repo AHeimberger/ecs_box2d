@@ -7,11 +7,13 @@ function Split-Path-Elements([String]$path, $count) {
     return $newpath
 }
 
-if (-not (Test-Path ($ProjectRoot + "/tmp/imgui")))
+if (-not (Test-Path ($ProjectRoot + "/pkgs/imgui")))
 {
-    pushd ($ProjectRoot + "/tmp")
+    pushd ($ProjectRoot + "/pkgs")
 
     git clone https://github.com/ocornut/imgui.git
+
+    popd
 }
 
 if (-not (Test-Path ($ProjectRoot + "/pkgs/include/GLFW")))
