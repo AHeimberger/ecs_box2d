@@ -1,9 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <GL/gl3w.h>
-#include <GLFW/glfw3.h>
-#include <memory>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 class MainWindow {
 public:
@@ -12,13 +10,7 @@ public:
     void loop();
 
 private:
-    struct DestroyGlfwWin {
-        void operator()(GLFWwindow* ptr) {
-            glfwDestroyWindow(ptr);
-        }
-    };
-
-    std::unique_ptr<GLFWwindow, DestroyGlfwWin> window;
+    sf::RenderWindow window;
 };
 
 #endif

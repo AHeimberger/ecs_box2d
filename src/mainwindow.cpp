@@ -1,34 +1,33 @@
 #include "mainwindow.h"
 #include "imgui.h"
-#include "imgui_impl_glfw_gl3.h"
+#include "imgui-SFML.h"
+#include <SFML/System/Clock.hpp>
+#include <SFML/Window/Event.hpp>
 
 MainWindow::MainWindow() :
-    window(glfwCreateWindow(1280, 720, "Window Title", nullptr, nullptr))
+    window(sf::VideoMode(1024, 720), "Window Title")
 {
-    glfwMakeContextCurrent(window.get());
-    glfwSwapInterval(1); // Enable vsync
-    gl3wInit();
-
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    //ImGuiIO& io = ImGui::GetIO(); (void)io;
-    ImGui_ImplGlfwGL3_Init(window.get(), true);
-
-    ImGui::StyleColorsDark();
+    window.setFramerateLimit(60);
+    ImGui::SFML::Init(window);
 }
 
 void MainWindow::loop()
 {
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    sf::Clock deltaClock;
 
-    while (!glfwWindowShouldClose(window.get()))
+    while (window.isOpen())
     {
-        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-        // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
-        // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
-        // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-        glfwPollEvents();
-        ImGui_ImplGlfwGL3_NewFrame();
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            ImGui::SFML::ProcessEvent(event);
+
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+        }
+
+        ImGui::SFML::Update(window, deltaClock.restart());
 
         {
             ImGui::Begin("Main Menu");
@@ -48,14 +47,10 @@ void MainWindow::loop()
             ImGui::End();
         }
 
-        // Rendering
-        int display_w, display_h;
-        glfwGetFramebufferSize(window.get(), &display_w, &display_h);
-        glViewport(0, 0, display_w, display_h);
-        glClearColor(0.45f, 0.55f, 0.60f, 1.00f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        ImGui::Render();
-        ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
-        glfwSwapBuffers(window.get());
+        window.clear();
+        ImGui::SFML::Render(window);
+        window.display();
     }
+
+    ImGui::SFML::Shutdown();
 }
