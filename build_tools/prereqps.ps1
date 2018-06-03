@@ -18,6 +18,11 @@ if (-not (Test-Path ($ProjectRoot + "/pkgs/imgui-sfml")))
     echo "Cloning ImGUI-SFML"
     git clone https://github.com/eliasdaler/imgui-sfml.git
 }
+if (-not (Test-Path ($ProjectRoot + "/pkgs/entityx")))
+{
+    echo "Cloning EntityX"
+    git clone https://github.com/alecthomas/entityx.git
+}
 popd
 
 # Preparation for Package downloads
