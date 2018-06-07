@@ -6,12 +6,19 @@ configure_file(
     ${CMAKE_BINARY_DIR}/resources/modular_ships.png 
     COPYONLY
 )
+configure_file(
+    ${CMAKE_SOURCE_DIR}/resources/resources.json
+    ${CMAKE_BINARY_DIR}/resources/resources.json 
+    COPYONLY
+)
+
 
 add_subdirectory(pkgs/entityx)
 
 add_definitions(-DIMGUI_USER_CONFIG="imconfig-SFML.h")
 
 set (PKG_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/pkgs/include)
+set (JSON_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/pkgs/json/include)
 set (ENTITYX_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/pkgs/entityx)
 set (IMGUI_INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/pkgs/imgui
@@ -21,6 +28,7 @@ set (IMGUI_INCLUDE_DIRS
 set (SRCS
     src/main.cpp
     src/mainwindow.cpp
+    src/resourcemanager.cpp
 
     src/systems/bodysystem.cpp
     src/systems/rendersystem.cpp
@@ -50,5 +58,5 @@ add_executable(ecs_box2d
     ${IMGUI_SRCS}
     ${SRCS}
 )
-target_include_directories(ecs_box2d PRIVATE ${CMAKE_SOURCE_DIR}/src ${PKG_INCLUDE_DIR} ${ENTITYX_INCLUDE_DIR} ${IMGUI_INCLUDE_DIRS})
+target_include_directories(ecs_box2d PRIVATE ${CMAKE_SOURCE_DIR}/src ${JSON_INCLUDE_DIR} ${PKG_INCLUDE_DIR} ${ENTITYX_INCLUDE_DIR} ${IMGUI_INCLUDE_DIRS})
 target_link_libraries(ecs_box2d PRIVATE ${ENTITYX_LIBS} ${IMGUI_LIBS} opengl32 gdi32 shell32 stdc++fs)

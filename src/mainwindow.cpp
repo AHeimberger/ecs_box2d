@@ -1,27 +1,22 @@
 #include "mainwindow.h"
 #include "imgui.h"
 #include "imgui-SFML.h"
-#include "components/body.h"
-#include "components/renderable.h"
 #include "systems/bodysystem.h"
 #include "systems/rendersystem.h"
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 
 MainWindow::MainWindow(const std::experimental::filesystem::path& resource_base_path) :
-    resource_base_path(resource_base_path),
-    resourceTexture(),
     window(sf::VideoMode(1024, 720), "Window Title"),
-    eventManager(),
-    entityManager(eventManager),
-    systemManager(entityManager, eventManager)
+    ecs(),
+    resourceManager(ecs)
 {
-    resourceTexture.loadFromFile((resource_base_path / "modular_ships.png").string());
     window.setFramerateLimit(60);
     ImGui::SFML::Init(window);
 
     createSystems();
-    setupGame();
+
+    resourceManager.loadScene(resource_base_path);
 }
 
 void MainWindow::loop()
@@ -70,27 +65,14 @@ void MainWindow::loop()
 
 void MainWindow::createSystems()
 {
-    systemManager.add<BodySystem>();
-    systemManager.add<RenderSystem>(window, resourceTexture);
-}
-
-void MainWindow::setupGame()
-{
-    entityx::Entity ship = entityManager.create();
-    ship.assign<Body>(
-        sf::Vector2f(200, 0),
-        sf::Vector2f(0, 50),
-        0.0
-    );
-    Renderable image(new sf::Sprite(resourceTexture, sf::IntRect(113, 32, 16, 16)));
-    image->scale(4.0, 4.0);
-    ship.assign<Renderable>(image);
+    ecs.systems.add<BodySystem>();
+    ecs.systems.add<RenderSystem>(window);
 }
 
 void MainWindow::render(entityx::TimeDelta dt)
 {
     window.clear();
-    systemManager.update_all(dt);
+    ecs.systems.update_all(dt);
     ImGui::SFML::Render(window);
     window.display();
 }

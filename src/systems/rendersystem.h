@@ -7,8 +7,7 @@
 class RenderSystem : public entityx::System<RenderSystem>
 {
 public:
-   RenderSystem(sf::RenderTarget& target,
-                sf::Texture& texture);
+   explicit RenderSystem(sf::RenderTarget& target);
 
    void update(entityx::EntityManager &entities,
                entityx::EventManager &events,
@@ -16,8 +15,6 @@ public:
 
 private:
    sf::RenderTarget& target;
-
-   sf::Texture& texture;
 };
 
 #endif // RENDERSYSTEM_H

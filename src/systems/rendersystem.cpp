@@ -5,10 +5,8 @@
 
 using namespace entityx;
 
-RenderSystem::RenderSystem(sf::RenderTarget& target,
-                           sf::Texture& texture) :
-    target(target),
-    texture(texture)
+RenderSystem::RenderSystem(sf::RenderTarget& target) :
+    target(target)
 {
 }
 

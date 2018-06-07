@@ -1,0 +1,17 @@
+{
+    "Textures": {
+        "Ships": "modular_ships.png"
+    },
+    "Entities": [
+        {
+            "Position": { "x": 200, "y": 0 },
+            "Speed": { "vx": 0, "vy": 50 },
+            "Renderable": {
+                "Texture": "Ships",
+                "Sprite": {
+                    "x": 113, "y": 32, "w": 16, "h": 16
+                }
+            }
+        }
+    ]
+}
