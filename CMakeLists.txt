@@ -52,11 +52,20 @@ set (IMGUI_LIBS
 link_directories(${CMAKE_SOURCE_DIR}/pkgs/lib ${CMAKE_BINARY_DIR}/pkgs/entityx)
 
 add_library(stdc++fs UNKNOWN IMPORTED)
-set_property(TARGET stdc++fs PROPERTY IMPORTED_LOCATION "C:/mingw-w64/x86_64-7.3.0-posix-seh-rt_v5-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/7.3.0/libstdc++fs.a")
+if (MINGW)
+    set_property(TARGET stdc++fs PROPERTY IMPORTED_LOCATION "C:/mingw-w64/x86_64-7.3.0-posix-seh-rt_v5-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/7.3.0/libstdc++fs.a")
+else (MINGW)
+    file(GLOB_RECURSE FILESYSTEM_LIBRARY_PATH /usr/lib/**/libstdc++fs.a)
+    set_property(TARGET stdc++fs PROPERTY IMPORTED_LOCATION ${FILESYSTEM_LIBRARY_PATH})
+endif (MINGW)
 
 add_executable(ecs_box2d
     ${IMGUI_SRCS}
     ${SRCS}
 )
 target_include_directories(ecs_box2d PRIVATE ${CMAKE_SOURCE_DIR}/src ${JSON_INCLUDE_DIR} ${PKG_INCLUDE_DIR} ${ENTITYX_INCLUDE_DIR} ${IMGUI_INCLUDE_DIRS})
-target_link_libraries(ecs_box2d PRIVATE ${ENTITYX_LIBS} ${IMGUI_LIBS} opengl32 gdi32 shell32 stdc++fs)
+if (WIN32)
+    target_link_libraries(ecs_box2d PRIVATE ${ENTITYX_LIBS} ${IMGUI_LIBS} opengl32 gdi32 shell32 stdc++fs)
+else (WIN32)
+    target_link_libraries(ecs_box2d PRIVATE ${ENTITYX_LIBS} ${IMGUI_LIBS} GL GLU stdc++fs)
+endif (WIN32)
