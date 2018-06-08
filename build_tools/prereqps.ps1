@@ -7,6 +7,18 @@ function Split-Path-Elements([String]$path, $count) {
     return $newpath
 }
 
+# Create expected folder structure
+if (-not (Test-Path ($ProjectRoot + "/pkgs")))
+{
+    mkdir ($ProjectRoot + "/pkgs")
+}
+
+if (-not (Test-Path ($ProjectRoot + "/tmp")))
+{
+    mkdir ($ProjectRoot + "/tmp")
+}
+
+# Cloning dependencies
 pushd ($ProjectRoot + "/pkgs")
 if (-not (Test-Path ($ProjectRoot + "/pkgs/imgui")))
 {
