@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "ResourceManager.h"
+#include "resourcemanager.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <entityx/quick.h>
 #include <experimental/filesystem>
