@@ -2,6 +2,7 @@
 #include "imgui.h"
 #include "imgui-SFML.h"
 #include "systems/bodysystem.h"
+#include "systems/box2dsystem.h"
 #include "systems/rendersystem.h"
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
@@ -66,7 +67,9 @@ void MainWindow::loop()
 void MainWindow::createSystems()
 {
     ecs.systems.add<BodySystem>();
+    ecs.systems.add<Box2dSystem>();
     ecs.systems.add<RenderSystem>(window);
+    ecs.systems.configure();
 }
 
 void MainWindow::render(entityx::TimeDelta dt)

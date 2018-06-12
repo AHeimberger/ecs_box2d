@@ -24,6 +24,7 @@ set (IMGUI_INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/pkgs/imgui
     ${CMAKE_SOURCE_DIR}/pkgs/imgui-sfml
 )
+set (BOX2D_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/pkgs/Box2D/Box2D)
 
 set (SRCS
     src/main.cpp
@@ -31,6 +32,7 @@ set (SRCS
     src/resourcemanager.cpp
 
     src/systems/bodysystem.cpp
+    src/systems/box2dsystem.cpp
     src/systems/rendersystem.cpp
 )
 
@@ -41,6 +43,57 @@ set (IMGUI_SRCS
     pkgs/imgui-sfml/imgui-SFML.cpp
 )
 
+set (BOX2D_SRCS
+    pkgs/Box2D/Box2D/Box2D/Collision/Shapes/b2ChainShape.cpp
+    pkgs/Box2D/Box2D/Box2D/Collision/Shapes/b2CircleShape.cpp
+    pkgs/Box2D/Box2D/Box2D/Collision/Shapes/b2EdgeShape.cpp
+    pkgs/Box2D/Box2D/Box2D/Collision/Shapes/b2PolygonShape.cpp
+    pkgs/Box2D/Box2D/Box2D/Collision/b2BroadPhase.cpp
+    pkgs/Box2D/Box2D/Box2D/Collision/b2BroadPhase.cpp
+    pkgs/Box2D/Box2D/Box2D/Collision/b2BroadPhase.cpp
+    pkgs/Box2D/Box2D/Box2D/Collision/b2CollideCircle.cpp
+    pkgs/Box2D/Box2D/Box2D/Collision/b2CollideEdge.cpp
+    pkgs/Box2D/Box2D/Box2D/Collision/b2CollidePolygon.cpp
+    pkgs/Box2D/Box2D/Box2D/Collision/b2Collision.cpp
+    pkgs/Box2D/Box2D/Box2D/Collision/b2Distance.cpp
+    pkgs/Box2D/Box2D/Box2D/Collision/b2DynamicTree.cpp
+    pkgs/Box2D/Box2D/Box2D/Collision/b2TimeOfImpact.cpp
+    pkgs/Box2D/Box2D/Box2D/Common/b2BlockAllocator.cpp
+    pkgs/Box2D/Box2D/Box2D/Common/b2Draw.cpp
+    pkgs/Box2D/Box2D/Box2D/Common/b2Math.cpp
+    pkgs/Box2D/Box2D/Box2D/Common/b2Settings.cpp
+    pkgs/Box2D/Box2D/Box2D/Common/b2StackAllocator.cpp
+    pkgs/Box2D/Box2D/Box2D/Common/b2Timer.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Contacts/b2ChainAndCircleContact.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Contacts/b2ChainAndPolygonContact.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Contacts/b2CircleContact.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Contacts/b2Contact.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Contacts/b2ContactSolver.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Contacts/b2EdgeAndCircleContact.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Contacts/b2EdgeAndPolygonContact.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Contacts/b2PolygonAndCircleContact.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Contacts/b2PolygonContact.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Joints/b2DistanceJoint.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Joints/b2FrictionJoint.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Joints/b2GearJoint.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Joints/b2Joint.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Joints/b2MotorJoint.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Joints/b2MouseJoint.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Joints/b2PrismaticJoint.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Joints/b2PulleyJoint.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Joints/b2RevoluteJoint.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Joints/b2RopeJoint.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Joints/b2WeldJoint.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/Joints/b2WheelJoint.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/b2Body.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/b2ContactManager.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/b2Fixture.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/b2Island.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/b2World.cpp
+    pkgs/Box2D/Box2D/Box2D/Dynamics/b2WorldCallbacks.cpp
+    pkgs/Box2D/Box2D/Box2D/Rope/b2Rope.cpp
+)
+
 set (ENTITYX_LIBS
     entityx
 )
@@ -48,6 +101,9 @@ set (ENTITYX_LIBS
 set (IMGUI_LIBS
     sfml-window sfml-graphics sfml-system
 )
+
+add_library(box2d STATIC ${BOX2D_SRCS})
+target_include_directories(box2d PRIVATE ${BOX2D_INCLUDE_DIR})
 
 link_directories(${CMAKE_SOURCE_DIR}/pkgs/lib ${CMAKE_BINARY_DIR}/pkgs/entityx)
 
@@ -63,9 +119,9 @@ add_executable(ecs_box2d
     ${IMGUI_SRCS}
     ${SRCS}
 )
-target_include_directories(ecs_box2d PRIVATE ${CMAKE_SOURCE_DIR}/src ${JSON_INCLUDE_DIR} ${PKG_INCLUDE_DIR} ${ENTITYX_INCLUDE_DIR} ${IMGUI_INCLUDE_DIRS})
+target_include_directories(ecs_box2d PRIVATE ${CMAKE_SOURCE_DIR}/src ${JSON_INCLUDE_DIR} ${PKG_INCLUDE_DIR} ${ENTITYX_INCLUDE_DIR} ${IMGUI_INCLUDE_DIRS} ${BOX2D_INCLUDE_DIR})
 if (WIN32)
-    target_link_libraries(ecs_box2d PRIVATE ${ENTITYX_LIBS} ${IMGUI_LIBS} opengl32 gdi32 shell32 stdc++fs)
+    target_link_libraries(ecs_box2d PRIVATE ${ENTITYX_LIBS} ${IMGUI_LIBS} box2d opengl32 gdi32 shell32 stdc++fs)
 else (WIN32)
-    target_link_libraries(ecs_box2d PRIVATE ${ENTITYX_LIBS} ${IMGUI_LIBS} GL GLU stdc++fs)
+    target_link_libraries(ecs_box2d PRIVATE ${ENTITYX_LIBS} ${IMGUI_LIBS} box2d GL GLU stdc++fs)
 endif (WIN32)

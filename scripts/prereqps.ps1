@@ -40,6 +40,11 @@ if (-not (Test-Path ($ProjectRoot + "/pkgs/json")))
     echo "Cloning nlohmann::json"
     git clone https://github.com/nlohmann/json.git
 }
+if (-not (Test-Path ($ProjectRoot + "/pkgs/Box2D")))
+{
+    echo "Cloning Box2D"
+    git clone https://github.com/erincatto/Box2D.git
+}
 popd
 
 # Preparation for Package downloads

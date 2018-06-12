@@ -22,6 +22,10 @@ if [ ! -d ${ProjectRoot}/pkgs/json ]; then
     echo "Cloning nlohmann::json"
     git clone https://github.com/nlohmann/json.git
 fi
+if [ ! -d ${ProjectRoot}/pkgs/Box2D ]; then
+    echo "Cloning Box2D"
+    git clone https://github.com/erincatto/Box2D.git
+fi
 popd
 
 if [ ! -d ${ProjectRoot}/pkgs/include/SFML ]; then

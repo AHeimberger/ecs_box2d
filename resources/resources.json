@@ -4,8 +4,9 @@
     },
     "Entities": [
         {
-            "Position": { "x": 200, "y": 0 },
-            "Speed": { "vx": 0, "vy": 50 },
+            "Physics": {
+                "x": 200, "y": 0
+            },
             "Renderable": {
                 "Texture": "Ships",
                 "Sprite": {

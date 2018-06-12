@@ -1,5 +1,6 @@
 #include "resourcemanager.h"
 #include "components/body.h"
+#include "components/physics.h"
 #include "components/renderable.h"
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -44,6 +45,12 @@ void ResourceManager::loadScene(std::experimental::filesystem::path resource_bas
             Renderable image(new sf::Sprite(textures[texture_name], sf::IntRect(x, y, w, h)));
             image->scale(4.0, 4.0);
             entity.assign<Renderable>(image);
+        }
+        if (entity_config.find("Physics")!=entity_config.end())
+        {
+            int initial_x = entity_config["Physics"]["x"];
+            int initial_y = entity_config["Physics"]["y"];
+            entity.assign<Physics>(nullptr, initial_x, initial_y);
         }
     }
 }
