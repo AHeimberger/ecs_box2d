@@ -20,6 +20,8 @@ private:
     sf::RenderWindow window;
     entityx::EntityX ecs;
     ResourceManager resourceManager;
+
+    bool showBox2dDebug;
 };
 
 #endif

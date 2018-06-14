@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "events.h"
 #include "imgui.h"
 #include "imgui-SFML.h"
 #include "systems/bodysystem.h"
@@ -10,7 +11,8 @@
 MainWindow::MainWindow(const std::experimental::filesystem::path& resource_base_path) :
     window(sf::VideoMode(1024, 720), "Window Title"),
     ecs(),
-    resourceManager(ecs)
+    resourceManager(ecs),
+    showBox2dDebug(false)
 {
     window.setFramerateLimit(60);
     ImGui::SFML::Init(window);
@@ -40,11 +42,14 @@ void MainWindow::loop()
 
         ImGui::SFML::Update(window, dt);
 
+        static bool imguiShowBox2dDebug = showBox2dDebug;
         {
-            ImGui::Begin("Main Menu");
+            ImGui::Begin("Game Menu");
 
             static float f = 0.0f;
             static int counter = 0;
+            ImGui::Checkbox("Show Box2D Debug output", &imguiShowBox2dDebug);
+
             ImGui::Text("Hello, world!");                           // Display some text (you can use a format string too)
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
             ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
@@ -58,6 +63,11 @@ void MainWindow::loop()
             ImGui::End();
         }
 
+        if (imguiShowBox2dDebug!=showBox2dDebug) {
+            ecs.events.emit<ChangeBox2dDebugOutput>(imguiShowBox2dDebug);
+            showBox2dDebug = imguiShowBox2dDebug;
+        }
+
         render(dt.asSeconds());
     }
 
@@ -67,7 +77,7 @@ void MainWindow::loop()
 void MainWindow::createSystems()
 {
     ecs.systems.add<BodySystem>();
-    ecs.systems.add<Box2dSystem>();
+    ecs.systems.add<Box2dSystem>(window);
     ecs.systems.add<RenderSystem>(window);
     ecs.systems.configure();
 }

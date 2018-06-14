@@ -30,6 +30,7 @@ set (SRCS
     src/main.cpp
     src/mainwindow.cpp
     src/resourcemanager.cpp
+    src/sfmldebugdraw.cpp
 
     src/systems/bodysystem.cpp
     src/systems/box2dsystem.cpp
