@@ -28,6 +28,7 @@ set (IMGUI_INCLUDE_DIRS
 set (BOX2D_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/pkgs/Box2D/Box2D)
 
 set (SRCS
+    src/coordinates.cpp
     src/main.cpp
     src/mainwindow.cpp
     src/resourcemanager.cpp
