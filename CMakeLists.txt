@@ -1,5 +1,6 @@
 project(ecs_box2d)
 cmake_minimum_required(VERSION 3.0)
+set (CMAKE_CXX_STANDARD 11)
 
 configure_file(
     ${CMAKE_SOURCE_DIR}/resources/modular_ships.png
