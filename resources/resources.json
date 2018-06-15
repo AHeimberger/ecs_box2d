@@ -5,13 +5,22 @@
     "Entities": [
         {
             "Physics": {
-                "x": 200, "y": 0
+                "type": "dynamic",
+                "x": 200, "y": 0,
+                "width": 16, "height": 16
             },
             "Renderable": {
                 "Texture": "Ships",
                 "Sprite": {
                     "x": 113, "y": 32, "w": 16, "h": 16
                 }
+            }
+        },
+        {
+            "Physics": {
+                "type": "static",
+                "x": 500, "y": 550,
+                "width": 400, "height": 50
             }
         }
     ]

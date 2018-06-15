@@ -27,10 +27,10 @@ void Box2dSystem::update(entityx::EntityManager &entities,
         b2FixtureDef fixture;
         b2PolygonShape polygonShape;
 
-        bodyDef.type = b2_dynamicBody;
+        bodyDef.type = spawn->body_type==BodyType::Dynamic ? b2_dynamicBody : b2_staticBody;
         bodyDef.position.Set(spawn->initial_x, spawn->initial_y);
 
-        polygonShape.SetAsBox(16, 16);
+        polygonShape.SetAsBox(spawn->width, spawn->height);
         fixture.density = 1.0;
         fixture.restitution = 0.3;
         fixture.shape = &polygonShape;

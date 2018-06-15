@@ -48,9 +48,21 @@ void ResourceManager::loadScene(std::experimental::filesystem::path resource_bas
         }
         if (entity_config.find("Physics")!=entity_config.end())
         {
-            int initial_x = entity_config["Physics"]["x"];
-            int initial_y = entity_config["Physics"]["y"];
-            entity.assign<Physics>(nullptr, initial_x, initial_y);
+            std::string body_type = entity_config["Physics"]["type"];
+            if ((body_type!="static") && (body_type!="dynamic"))
+            {
+                throw std::invalid_argument("Physics.type must either be 'dynamic' or 'static'");
+            }
+            float initial_x = entity_config["Physics"]["x"];
+            float initial_y = entity_config["Physics"]["y"];
+            float width = entity_config["Physics"]["width"];
+            float height = entity_config["Physics"]["height"];
+            entity.assign<Physics>(nullptr,
+                    initial_x,
+                    initial_y,
+                    width,
+                    height,
+                    body_type=="dynamic" ? BodyType::Dynamic : BodyType::Static);
         }
     }
 }
