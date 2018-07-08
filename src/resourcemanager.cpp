@@ -43,7 +43,6 @@ void ResourceManager::loadScene(std::experimental::filesystem::path resource_bas
             int w = entity_config["Renderable"]["Sprite"]["w"];
             int h = entity_config["Renderable"]["Sprite"]["h"];
             Renderable image(new sf::Sprite(textures[texture_name], sf::IntRect(x, y, w, h)));
-            image->scale(4.0, 4.0);
             entity.assign<Renderable>(image);
         }
         if (entity_config.find("Physics")!=entity_config.end())
@@ -55,11 +54,12 @@ void ResourceManager::loadScene(std::experimental::filesystem::path resource_bas
             }
             float initial_x = entity_config["Physics"]["x"];
             float initial_y = entity_config["Physics"]["y"];
-            float width = entity_config["Physics"]["width"];
-            float height = entity_config["Physics"]["height"];
+            // Box2d uses half-widths and half-heights --> divide by 2
+            float width = entity_config["Physics"]["width"].get<float>() / 2.0f;
+            float height = entity_config["Physics"]["height"].get<float>() / 2.0f;
             entity.assign<Physics>(nullptr,
-                    initial_x,
-                    initial_y,
+                    initial_x + width,
+                    initial_y + height,
                     width,
                     height,
                     body_type=="dynamic" ? BodyType::Dynamic : BodyType::Static);

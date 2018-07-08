@@ -27,7 +27,7 @@ void RenderSystem::update(EntityManager &entities,
         } else
         {
             auto& position = physics.body->GetPosition();
-            renderable->setPosition(position.x, position.y);
+            renderable->setPosition(position.x - physics.width, position.y - physics.height);
             target.draw(*renderable.get());
         }
     });

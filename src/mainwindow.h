@@ -3,6 +3,7 @@
 
 #include "resourcemanager.h"
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/View.hpp>
 #include <entityx/quick.h>
 #include <experimental/filesystem>
 
@@ -18,6 +19,7 @@ private:
 
 private:
     sf::RenderWindow window;
+    sf::View view;
     entityx::EntityX ecs;
     ResourceManager resourceManager;
 

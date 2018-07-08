@@ -10,11 +10,15 @@
 
 MainWindow::MainWindow(const std::experimental::filesystem::path& resource_base_path) :
     window(sf::VideoMode(1024, 720), "Window Title"),
+    view(window.getDefaultView()),
     ecs(),
     resourceManager(ecs),
     showBox2dDebug(false)
 {
     window.setFramerateLimit(60);
+    view.zoom(0.5f);
+    view.move(-100.0f, 0);
+    window.setView(view);
     ImGui::SFML::Init(window);
 
     createSystems();
