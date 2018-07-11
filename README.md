@@ -91,11 +91,6 @@ docker run --rm=true \
 ./scripts/clean.sh
 ./scripts/prereqps.sh
 
-# dirty patch, eventuall need to update g++
-patch pkgs/Box2D/Box2D/Common/b2Math.h -i scripts/patch.txt -o pkgs/Box2D/Box2D/Common/b2Math_PATCH.h
-rm pkgs/Box2D/Box2D/Common/b2Math.h
-mv pkgs/Box2D/Box2D/Common/b2Math_PATCH.h pkgs/Box2D/Box2D/Common/b2Math.h
-
 # build project
 cmake .
 make
