@@ -63,3 +63,44 @@ cmake ..
 cmake --build .
 ```
 
+### Using Docker
+
+If you like docker, just change current directory within the terminal into the cloned directory
+and run the whole script from bellow.
+
+
+```
+# well some variables
+CLONED_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DOCKER_TAG_NAME=ecsbox2d
+
+# use docker to build
+docker rmi $(docker images -f dangling=true -q)
+docker build \
+    --build-arg USER_NAME=${USER} \
+    --build-arg USER_ID=$(id -u ${USER}) \
+    --build-arg GROUP_ID=$(id -g ${USER}) \
+    -t ${DOCKER_TAG_NAME} .
+docker run --rm=true \
+    -e DISPLAY=${DISPLAY} \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v ${CLONED_DIR}/:/project/ \
+    -it ${DOCKER_TAG_NAME} /bin/bash
+
+# run some scripts
+./scripts/clean.sh
+./scripts/prereqps.sh
+
+# dirty patch, eventuall need to update g++
+patch pkgs/Box2D/Box2D/Common/b2Math.h -i scripts/patch.txt -o pkgs/Box2D/Box2D/Common/b2Math_PATCH.h
+rm pkgs/Box2D/Box2D/Common/b2Math.h
+mv pkgs/Box2D/Box2D/Common/b2Math_PATCH.h pkgs/Box2D/Box2D/Common/b2Math.h
+
+# build project
+cmake .
+make
+
+# run program
+./ecs_box2d
+
+```
