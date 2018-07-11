@@ -65,13 +65,13 @@ cmake --build .
 
 ### Using Docker
 
-If you like docker, just change current directory within the terminal into the cloned directory
+If you like docker, just change your current directory within the terminal into the cloned directory
 and run the whole script from bellow.
 
 
 ```
 # well some variables
-CLONED_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CLONED_DIR="$(pwd)"
 DOCKER_TAG_NAME=ecsbox2d
 
 # use docker to build
