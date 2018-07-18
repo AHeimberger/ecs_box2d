@@ -36,6 +36,7 @@ set (SRCS
 
     src/systems/bodysystem.cpp
     src/systems/box2dsystem.cpp
+    src/systems/controlsystem.cpp
     src/systems/rendersystem.cpp
 )
 

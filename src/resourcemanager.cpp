@@ -1,5 +1,6 @@
 #include "resourcemanager.h"
 #include "components/body.h"
+#include "components/control.h"
 #include "components/physics.h"
 #include "components/renderable.h"
 #include <nlohmann/json.hpp>
@@ -29,6 +30,12 @@ void ResourceManager::loadScene(std::experimental::filesystem::path resource_bas
     for (auto& entity_config : resources["Entities"])
     {
         entityx::Entity entity = ecs.entities.create();
+        if (entity_config.find("Control")!=entity_config.end())
+        {
+            double upthrust = entity_config["Control"]["upthrust"];
+            double sidethrust = entity_config["Control"]["sidethrust"];
+            entity.assign<Control>(upthrust, sidethrust);
+        }
         if (entity_config.find("Position")!=entity_config.end())
         {
             sf::Vector2f position(entity_config["Position"]["x"], entity_config["Position"]["y"]);

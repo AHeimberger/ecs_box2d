@@ -4,6 +4,7 @@
 #include "imgui-SFML.h"
 #include "systems/bodysystem.h"
 #include "systems/box2dsystem.h"
+#include "systems/controlsystem.h"
 #include "systems/rendersystem.h"
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
@@ -81,6 +82,7 @@ void MainWindow::loop()
 void MainWindow::createSystems()
 {
     ecs.systems.add<BodySystem>();
+    ecs.systems.add<ControlSystem>();
     ecs.systems.add<Box2dSystem>(window);
     ecs.systems.add<RenderSystem>(window);
     ecs.systems.configure();

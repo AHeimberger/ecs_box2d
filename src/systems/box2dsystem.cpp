@@ -35,6 +35,7 @@ void Box2dSystem::update(entityx::EntityManager &entities,
         fixture.restitution = 0.3;
         fixture.shape = &polygonShape;
         body = world->CreateBody(&bodyDef);
+        body->ResetMassData();
 
         body->CreateFixture(&fixture);
         body->SetSleepingAllowed(false);
