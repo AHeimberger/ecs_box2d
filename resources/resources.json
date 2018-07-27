@@ -4,6 +4,10 @@
     },
     "Entities": [
         {
+            "Control": {
+                "upthrust": 150.0,
+                "sidethrust": 25.0
+            },
             "Physics": {
                 "type": "dynamic",
                 "x": 200, "y": 200,
